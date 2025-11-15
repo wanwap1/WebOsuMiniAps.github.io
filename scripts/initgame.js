@@ -57,31 +57,25 @@ function(Osu, _, sound, Playback) {
         scene: null,
         updatePlayerActions: function(){},
 
-        // note: preference values here will be overwritten by gamesettings (in settings.js)
-        // display
+        // ... (весь твой код 'game' остается здесь) ...
+        
         backgroundDimRate: 0.7,
         backgroundBlurRate: 0.0,
         cursorSize: 1.0,
         showhwmouse: false,
         snakein: true,
         snakeout: true,
-
-        // audio
         masterVolume: 0.7,
         effectVolume: 1.0,
         musicVolume: 1.0,
         beatmapHitsound: true,
         globalOffset: 0,
-
-        // input
         allowMouseButton: false,
         allowMouseScroll: true,
         K1keycode: 90,
         K2keycode: 88,
         ESCkeycode: 27,
         ESC2keycode: 27,
-
-        // mods
         autoplay: false,
         autopilot: false,
         relax: false,
@@ -90,22 +84,17 @@ function(Osu, _, sound, Playback) {
         hardrock: false,
         easy: false,
         hidden: false,
-
-        // skin mods
         hideNumbers: false,
         hideGreat: false,
         hideFollowPoints: false,
-
-        // cursor info
-        mouseX: 0, // in osu pixel, probably negative or exceeding 512
+        mouseX: 0, 
         mouseY: 0,
-        mouse: null, // return {x,y,r} in osu pixel, probably negative or exceeding 512
+        mouse: null, 
         K1down: false,
         K2down: false,
         M1down: false,
         M2down: false,
         down: false,
-
         finished : false,
         sample: [{}, {}, {}, {}],
         sampleSet: 1
@@ -216,5 +205,47 @@ function(Osu, _, sound, Playback) {
     window.addEventListener("dragover", function(e){e=e||window.event; e.preventDefault(); e.stopPropagation();});
     window.addEventListener("dragstart", function(e){e=e||window.event; e.preventDefault(); e.stopPropagation();});
     window.addEventListener("drop", function(e){e=e||window.event; e.preventDefault(); e.stopPropagation();});
+    
+    // === НОВЫЙ БЛОК: ОТОБРАЖЕНИЕ ПРОФИЛЯ ===
+    // Эта функция попытается вставить имя пользователя в navbar
+    function injectUserProfile() {
+        // 1. Убедимся, что данные Telegram загружены
+        if (!window.telegramUser) {
+            console.warn("User data not ready, retrying...");
+            setTimeout(injectUserProfile, 200); // Попробовать снова через 200мс
+            return;
+        }
+
+        // 2. Найдем, куда вставить имя (взято из navbar.html)
+        const navRight = document.querySelector(".nav-buttons-right");
+
+        // 3. Если navbar еще не загрузился (из-за fetch), попробуем снова
+        if (!navRight) {
+            console.warn("Navbar not ready, retrying...");
+            setTimeout(injectUserProfile, 200); // Попробовать снова через 200мс
+            return;
+        }
+
+        // 4. Создаем и вставляем элемент
+        const userName = window.telegramUser.first_name || window.telegramUser.username || "Player";
+        const profileElement = document.createElement("a");
+        profileElement.className = "pseudo button"; // Используем тот же класс, что и другие кнопки
+        profileElement.href = "settings.html"; // Сделаем ссылкой на Настройки
+        profileElement.innerText = `👤 ${userName}`;
+        
+        // Добавляем стили, чтобы он выделялся
+        profileElement.style.color = "#FFFFFF"; 
+        profileElement.style.fontWeight = "bold";
+        profileElement.style.borderBottom = "none"; // Уберем подчеркивание при ховере
+
+        // Добавляем его в начало 'nav-buttons-right'
+        navRight.prepend(profileElement);
+        console.log(`Profile injected for ${userName}`);
+    }
+
+    // Запускаем инжектор
+    injectUserProfile();
+    // === КОНЕЦ НОВОГО БЛОКА ===
+
 });
 // ----- КОНЕЦ ТВОЕГО ОРИГИНАЛЬНОГО КОДА -----
