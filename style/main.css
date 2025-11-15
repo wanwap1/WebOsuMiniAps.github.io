@@ -4,7 +4,7 @@
   --cursor-tiny: url("cursortiny.cur") 20 20;
   --cursor-small: url("cursorsmall.cur") 30 30;
   --cursor-medium: url("cursor.cur") 40 40;
-  --nav-bg: #b63258;
+  --nav-bg: #8a2be2; /* ИЗМЕНЕНО С #b63258 */
   --nav-color: #fff;
 }
 
@@ -154,7 +154,7 @@ nav .brand {
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 4px;
   font-size: 15px;
-  background: rgb(130, 11, 54);
+  background: rgb(90, 24, 154); /* ИЗМЕНЕНО С rgb(130, 11, 54) */
   color: white;
   outline: none;
   transition: border-color 0.2s ease;
@@ -263,7 +263,7 @@ nav .brand {
 
 /*fix placeholder color for chrome*/
 form input[type="text"]::-webkit-input-placeholder {
-  color: #c89eaa;
+  color: #e6d8f9; /* ИЗМЕНЕНО С #c89eaa */
 }
 
 form input[type="text"] {
@@ -815,8 +815,8 @@ thead {
   content: "Full Combo";
   font-size: 2em;
   font-style: italic;
-  color: #ff969c;
-  border: 5px #ff969c solid;
+  color: #e0c6fd; /* ИЗМЕНЕНО С #ff969c */
+  border: 5px #e0c6fd solid; /* ИЗМЕНЕНО С #ff969c */
   border-radius: 12px;
   white-space: nowrap;
   line-height: 1.2em;
@@ -1031,11 +1031,11 @@ progress::-webkit-progress-bar {
 }
 
 progress::-moz-progress-bar {
-  background: #f6a;
+  background: #c792ea; /* ИЗМЕНЕНО С #f6a */
 }
 
 progress::-webkit-progress-value {
-  background: #f6a;
+  background: #c792ea; /* ИЗМЕНЕНО С #f6a */
 }
 
 progress.finished::-moz-progress-bar {
@@ -1314,7 +1314,7 @@ progress.finished::-webkit-progress-value {
 }
 
 input {
-  background: rgb(130, 11, 54);
+  background: rgb(90, 24, 154); /* ИЗМЕНЕНО С rgb(130, 11, 54) */
   border: none;
 }
 
@@ -1367,7 +1367,7 @@ input[type=checkbox]+span::after {
 }
 
 input[type=checkbox]:checked+span {
-  background: #fc7bb4;
+  background: #d7b9f5; /* ИЗМЕНЕНО С #fc7bb4 */
 }
 
 input[type=checkbox]:checked+span::after {
@@ -1448,7 +1448,7 @@ input[type=button]:hover {
 }
 
 input[type=button].using {
-  background: #fc7bb4;
+  background: #d7b9f5; /* ИЗМЕНЕНО С #fc7bb4 */
   color: #fff;
 }
 
@@ -1487,7 +1487,7 @@ input[type=range]::-moz-range-thumb {
 }
 
 input[type=range]::-moz-range-progress {
-  background-color: #fc7bb4;
+  background-color: #d7b9f5; /* ИЗМЕНЕНО С #fc7bb4 */
 }
 
 input[type=range]::-moz-range-track {
@@ -1498,7 +1498,7 @@ hr {
   height: 2px;
   margin-bottom: 12px;
   border: none;
-  background: #ee6da7;
+  background: #b073e8; /* ИЗМЕНЕНО С #ee6da7 */
 }
 
 
@@ -1637,7 +1637,7 @@ body:not(.sound-ready) .difficulty-item {
 }
 
 .difficulty-ring.insane {
-  border-color: #f6a;
+  border-color: #c792ea; /* ИЗМЕНЕНО С #f6a */
 }
 
 .difficulty-ring.expert {
@@ -1682,7 +1682,7 @@ body:not(.sound-ready) .difficulty-item {
 }
 
 .bigring.insane {
-  border-color: #f6a;
+  border-color: #c792ea; /* ИЗМЕНЕНО С #f6a */
 }
 
 .bigring.expert {
