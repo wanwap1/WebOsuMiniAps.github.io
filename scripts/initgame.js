@@ -2,18 +2,27 @@
 require(["osu", "underscore", "sound", "playback"],
 function(Osu, _, sound, Playback) {
 
-    // ----- НАЧАЛО БЛОКА TELEGRAM (ИСПРАВЛЕНО) -----
+    // ----- НАЧАЛО БЛОКА ИНТЕГРАЦИИ (ИСПРАВЛЕНО) -----
     try {
       if (window.Telegram && window.Telegram.WebApp) {
         const tg = window.Telegram.WebApp;
-
-        // 1. Сообщаем Telegram, что приложение готово
+    
+        // === 1. ПОЛУЧАЕМ ID ПОЛЬЗОВАТЕЛЯ ===
+        if (tg.initDataUnsafe.user) {
+            window.telegramUser = tg.initDataUnsafe.user;
+            console.log("Telegram User Initialized:", window.telegramUser);
+        } else {
+            // Запасной вариант для гостя
+            window.telegramUser = { id: 0, first_name: "Guest", username: "guest" };
+        }
+        
+        // === 2. СООБЩАЕМ TELEGRAM, ЧТО ВСЕ ГОТОВО ===
         tg.ready();
 
-        // 2. Растягиваем окно (для ПК)
+        // === 3. РАСШИРЯЕМ ОКНО (ДЛЯ ПК) ===
         tg.expand();
 
-        // 3. Скрываем кнопку "Назад"
+        // === 4. СКРЫВАЕМ КНОПКУ "НАЗАД" ===
         tg.BackButton.hide();
         
         console.log("Telegram WebApp API: Ready and expanded.");
@@ -21,12 +30,15 @@ function(Osu, _, sound, Playback) {
       } else {
         // Это сработает, если ты откроешь игру в обычном браузере
         console.warn("Telegram WebApp API not found. Running in standard browser mode.");
+        // Запасной вариант для гостя при тестировании в браузере
+        window.telegramUser = { id: 0, first_name: "Guest", username: "guest" };
       }
     } catch (e) {
-        // Добавил try...catch, чтобы Telegram API не сломал игру, если что-то пойдет не так
         console.error("Telegram API error:", e);
+        // Запасной вариант на случай ошибки
+        window.telegramUser = { id: 0, first_name: "Guest", username: "guest" };
     }
-    // ----- КОНЕЦ БЛОКА TELEGRAM -----
+    // ----- КОНЕЦ БЛОКА ИНТЕГРАЦИИ -----
 
 
     // ----- НАЧАЛО ТВОЕГО ОРИГИНАЛЬНОГО КОДА -----
