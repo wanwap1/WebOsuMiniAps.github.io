@@ -79,15 +79,23 @@ define([], function () {
 
   const audioContext = new AudioContext();
   if (audioContext.state === "suspended") {
-    document.body.addEventListener(
-      "touchstart",
-      (event) => {
+    
+    // === НАЧАЛО ИСПРАВЛЕНИЯ ===
+    // Твой старый код слушал только 'touchstart'
+    // Мы добавляем 'mousedown', 'keydown', и 'click' для ПК
+    const resumeAudio = () => {
         audioContext.resume();
-      },
-      {
-        once: true,
-      }
-    );
+        document.body.removeEventListener("touchstart", resumeAudio);
+        document.body.removeEventListener("mousedown", resumeAudio);
+        document.body.removeEventListener("keydown", resumeAudio);
+        document.body.removeEventListener("click", resumeAudio);
+    };
+
+    document.body.addEventListener("touchstart", resumeAudio, { once: true });
+    document.body.addEventListener("mousedown", resumeAudio, { once: true });
+    document.body.addEventListener("keydown", resumeAudio, { once: true });
+    document.body.addEventListener("click", resumeAudio, { once: true });
+    // === КОНЕЦ ИСПРАВЛЕНИЯ ===
   }
 
   function OsuAudio(filename, buffer, callback) {
