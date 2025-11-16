@@ -57,25 +57,31 @@ function(Osu, _, sound, Playback) {
         scene: null,
         updatePlayerActions: function(){},
 
-        // ... (весь твой код 'game' остается здесь) ...
-        
+        // note: preference values here will be overwritten by gamesettings (in settings.js)
+        // display
         backgroundDimRate: 0.7,
         backgroundBlurRate: 0.0,
         cursorSize: 1.0,
         showhwmouse: false,
         snakein: true,
         snakeout: true,
+
+        // audio
         masterVolume: 0.7,
         effectVolume: 1.0,
         musicVolume: 1.0,
         beatmapHitsound: true,
         globalOffset: 0,
+
+        // input
         allowMouseButton: false,
         allowMouseScroll: true,
         K1keycode: 90,
         K2keycode: 88,
         ESCkeycode: 27,
         ESC2keycode: 27,
+
+        // mods
         autoplay: false,
         autopilot: false,
         relax: false,
@@ -84,17 +90,22 @@ function(Osu, _, sound, Playback) {
         hardrock: false,
         easy: false,
         hidden: false,
+
+        // skin mods
         hideNumbers: false,
         hideGreat: false,
         hideFollowPoints: false,
-        mouseX: 0, 
+
+        // cursor info
+        mouseX: 0, // in osu pixel, probably negative or exceeding 512
         mouseY: 0,
-        mouse: null, 
+        mouse: null, // return {x,y,r} in osu pixel, probably negative or exceeding 512
         K1down: false,
         K2down: false,
         M1down: false,
         M2down: false,
         down: false,
+
         finished : false,
         sample: [{}, {}, {}, {}],
         sampleSet: 1
@@ -211,7 +222,7 @@ function(Osu, _, sound, Playback) {
     function injectUserProfile() {
         // 1. Убедимся, что данные Telegram загружены
         if (!window.telegramUser) {
-            console.warn("User data not ready, retrying...");
+            // console.warn("User data not ready, retrying...");
             setTimeout(injectUserProfile, 200); // Попробовать снова через 200мс
             return;
         }
@@ -221,7 +232,7 @@ function(Osu, _, sound, Playback) {
 
         // 3. Если navbar еще не загрузился (из-за fetch), попробуем снова
         if (!navRight) {
-            console.warn("Navbar not ready, retrying...");
+            // console.warn("Navbar not ready, retrying...");
             setTimeout(injectUserProfile, 200); // Попробовать снова через 200мс
             return;
         }
@@ -246,6 +257,5 @@ function(Osu, _, sound, Playback) {
     // Запускаем инжектор
     injectUserProfile();
     // === КОНЕЦ НОВОГО БЛОКА ===
-
 });
 // ----- КОНЕЦ ТВОЕГО ОРИГИНАЛЬНОГО КОДА -----
