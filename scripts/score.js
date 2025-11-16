@@ -6,13 +6,15 @@
 *
 * properties
 * tint: 24-bit integer color of display
-* */
+*
+*/
 
 define([], function () {
     function addPlayHistory(summary) {
         // === БЛОК FIREBASE: ОТПРАВКА СЧЕТА ===
         // Проверяем, что Firebase (db) и данные Telegram (telegramUser) доступны
-        if (window.db && window.telegramUser && window.telegramUser.id) {
+        // И что ID пользователя не 0 (не "Guest")
+        if (window.db && window.telegramUser && window.telegramUser.id > 0) {
             
             // Готовим данные для сохранения
             const scoreData = {
@@ -31,6 +33,8 @@ define([], function () {
             window.db.collection('scores').add(scoreData)
                 .then(() => console.log("Score successfully written to Firestore!"))
                 .catch((error) => console.error("Error writing score: ", error));
+        } else if (window.db) {
+            console.log("Score not saved: User is Guest (ID=0) or DB not ready.");
         }
         // === КОНЕЦ БЛОКА FIREBASE ===
 
