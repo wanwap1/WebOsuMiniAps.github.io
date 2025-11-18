@@ -6,11 +6,11 @@
 *
 * properties
 * tint: 24-bit integer color of display
-*
-*/
+* */
 
 define([], function () {
     function addPlayHistory(summary) {
+        
         // === БЛОК FIREBASE: ОТПРАВКА СЧЕТА ===
         // Проверяем, что Firebase (db) и данные Telegram (telegramUser) доступны
         // И что ID пользователя не 0 (не "Guest")
@@ -25,16 +25,31 @@ define([], function () {
                 max_combo: parseInt(summary.combo),
                 beatmap_title: summary.title + " [" + summary.version + "]",
                 mods: summary.mods,
-                // Используем firebase.firestore.FieldValue, а не new Date()
                 timestamp: firebase.firestore.FieldValue.serverTimestamp() // Время на сервере
             };
             
+            // === НОВЫЙ КОД ОТЛАДКИ ===
+            console.log("Attempting to write score to Firestore for user:", window.telegramUser.id, scoreData);
+
             // Отправляем данные в коллекцию 'scores'
             window.db.collection('scores').add(scoreData)
-                .then(() => console.log("Score successfully written to Firestore!"))
-                .catch((error) => console.error("Error writing score: ", error));
+                .then((docRef) => {
+                    const successMsg = "Score successfully written! Document ID: " + docRef.id;
+                    console.log(successMsg);
+                    // alert(successMsg); // Можешь включить, если хочешь
+                })
+                .catch((error) => {
+                    // ВЫВОДИМ ОШИБКУ НА ЭКРАН
+                    const errorMsg = `FIREBASE ERROR: ${error.message}. Check Rules!`;
+                    console.error(errorMsg, error);
+                    alert(errorMsg); // ЭТО ВАЖНО!
+                });
         } else if (window.db) {
-            console.log("Score not saved: User is Guest (ID=0) or DB not ready.");
+            const guestMsg = "Score not saved: User is Guest (ID=0). Run from t.me link inside Telegram.";
+            console.warn(guestMsg);
+            alert(guestMsg); // Сообщаем, если это гость
+        } else {
+            console.error("Score not saved: Firebase DB (window.db) is not defined.");
         }
         // === КОНЕЦ БЛОКА FIREBASE ===
 
